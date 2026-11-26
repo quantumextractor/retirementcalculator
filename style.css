@@ -132,6 +132,293 @@ h1 {
   box-shadow: 0 12px 38px rgb(27 55 42 / 5%);
 }
 
+.retirement-card {
+  margin-top: 24px;
+  padding: 30px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow: 0 12px 38px rgb(27 55 42 / 5%);
+}
+
+.retirement-heading {
+  margin-bottom: 24px;
+}
+
+.retirement-heading h2 {
+  margin-bottom: 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.retirement-intro {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.retirement-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 17px;
+}
+
+.input-wrap select {
+  width: 100%;
+  height: 47px;
+  padding: 0 12px;
+  border: 0;
+  outline: 0;
+  border-radius: inherit;
+  color: var(--ink);
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+}
+
+.input-wrap select:focus-visible {
+  outline: 2px solid #709785;
+  outline-offset: -3px;
+}
+
+.retirement-button {
+  width: auto;
+  min-width: 290px;
+  padding: 0 20px;
+}
+
+.retirement-results {
+  margin-top: 25px;
+}
+
+.retirement-results .result-topline h3 {
+  margin: 0;
+  color: #53665e;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.retirement-plan-status {
+  padding: 13px 15px;
+  margin: 17px 0 10px;
+  border: 1px solid;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.retirement-plan-status.is-funded {
+  border-color: #d7e8d9;
+  color: #24543a;
+  background: #eaf4eb;
+}
+
+.retirement-plan-status.is-shortfall {
+  border-color: #efdfbf;
+  color: #76541b;
+  background: #fbf5e8;
+}
+
+.retirement-recommendation {
+  margin: 0 0 19px;
+  color: #53645d;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.retirement-breakdown {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 16px 0;
+  border-top: 1px solid #dfe9df;
+  border-bottom: 1px solid #dfe9df;
+}
+
+.retirement-breakdown div {
+  display: block;
+}
+
+.retirement-breakdown dd {
+  margin-top: 5px;
+  text-align: left;
+}
+
+.projection-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 22px 0 10px;
+}
+
+.projection-heading h4 {
+  margin: 0;
+  color: #344b40;
+  font-size: 12px;
+}
+
+.projection-heading p {
+  margin: 0;
+  color: #7d8983;
+  font-size: 10px;
+}
+
+.projection-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0 0 10px;
+  padding: 0;
+  color: #687871;
+  font-size: 10px;
+  list-style: none;
+}
+
+.projection-legend li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+}
+
+.pension-swatch,
+.income-bar-pension {
+  background: #477a60;
+}
+
+.savings-swatch,
+.income-bar-savings {
+  background: #d3a75d;
+}
+
+.balance-chart-panel {
+  padding: 14px 14px 8px;
+  margin-bottom: 14px;
+  border: 1px solid #e1e9e5;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.balance-chart-panel h4 {
+  margin: 0 0 8px;
+  color: #53645d;
+  font-size: 10px;
+}
+
+.balance-chart-panel svg {
+  display: block;
+  width: 100%;
+  height: 190px;
+  overflow: visible;
+}
+
+.balance-chart-grid {
+  stroke: #e8eeea;
+  stroke-width: 1;
+}
+
+.balance-chart-line {
+  fill: none;
+  stroke: #477a60;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
+.balance-chart-label {
+  fill: #7d8983;
+  font-family: inherit;
+  font-size: 10px;
+}
+
+.projection-table-wrap {
+  max-height: 580px;
+  overflow: auto;
+  border: 1px solid #e1e9e5;
+  border-radius: 8px;
+}
+
+.projection-table {
+  width: 100%;
+  min-width: 780px;
+  border-collapse: collapse;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.projection-table th,
+.projection-table td {
+  padding: 10px 11px;
+  border-bottom: 1px solid #e8eeea;
+  white-space: nowrap;
+}
+
+.projection-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  color: #53645d;
+  background: #f3f7f3;
+}
+
+.projection-table th {
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.projection-table tbody tr:last-child th,
+.projection-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.projection-table tbody th {
+  color: #344b40;
+  font-weight: 700;
+}
+
+.income-cell {
+  min-width: 215px;
+  text-align: left;
+}
+
+.income-stack {
+  display: flex;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: #e7ece8;
+}
+
+.income-bar-pension,
+.income-bar-savings {
+  height: 100%;
+}
+
+.income-amounts {
+  margin-top: 5px;
+  color: #687871;
+  font-size: 9px;
+}
+
+.projection-shortfall {
+  color: #a63d34;
+  font-weight: 700;
+}
+
+.retirement-disclaimer {
+  margin: 16px 0 0;
+  color: #7d8983;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
 .savings-heading {
   margin-bottom: 24px;
 }
@@ -609,6 +896,10 @@ h1 {
   .savings-fields {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .retirement-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 480px) {
@@ -652,18 +943,31 @@ h1 {
     padding: 22px 18px;
   }
 
+  .retirement-card {
+    padding: 22px 18px;
+  }
+
   .field-grid {
     grid-template-columns: 1fr;
     gap: 17px;
   }
 
   .savings-fields,
-  .savings-breakdown {
+  .savings-breakdown,
+  .retirement-fields,
+  .retirement-breakdown {
     grid-template-columns: 1fr;
   }
 
-  .savings-button {
+  .savings-button,
+  .retirement-button {
     width: 100%;
+  }
+
+  .projection-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
   }
 }
 

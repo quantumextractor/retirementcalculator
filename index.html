@@ -331,6 +331,146 @@
         ></p>
       </section>
 
+      <section class="retirement-card" aria-labelledby="retirement-title">
+        <div class="card-heading retirement-heading">
+          <div>
+            <p class="step-label">RETIREMENT INCOME PLAN</p>
+            <h2 id="retirement-title">Will your savings support your income goal?</h2>
+            <p class="retirement-intro">
+              Estimate yearly income from your pension and Traditional 457(b).
+            </p>
+          </div>
+          <span class="heading-icon" aria-hidden="true">03</span>
+        </div>
+
+        <form id="retirement-form">
+          <div class="retirement-fields">
+            <div class="field">
+              <label for="desired-monthly-income">Desired monthly income after tax</label>
+              <div class="input-wrap input-wrap-money">
+                <span class="input-prefix" aria-hidden="true">$</span>
+                <input
+                  id="desired-monthly-income"
+                  name="desiredMonthlyIncome"
+                  type="number"
+                  min="0"
+                  step="100"
+                  placeholder="e.g. 6,000"
+                  required
+                  inputmode="decimal"
+                >
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="filing-status">Tax filing status</label>
+              <div class="input-wrap">
+                <select id="filing-status" name="filingStatus">
+                  <option value="single">Single</option>
+                  <option value="joint">Married filing jointly</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="plan-through-age">Plan through age</label>
+              <div class="input-wrap">
+                <input
+                  id="plan-through-age"
+                  name="planThroughAge"
+                  type="number"
+                  min="1"
+                  max="120"
+                  step="1"
+                  value="90"
+                  required
+                  inputmode="numeric"
+                >
+                <span class="input-suffix">years old</span>
+              </div>
+            </div>
+          </div>
+
+          <button class="calculate-button retirement-button" type="submit">
+            Estimate my retirement income
+            <span aria-hidden="true">→</span>
+          </button>
+        </form>
+
+        <section
+          id="retirement-results"
+          class="results retirement-results"
+          aria-labelledby="retirement-results-title"
+          hidden
+        >
+          <div class="result-topline">
+            <h3 id="retirement-results-title">Your retirement income projection</h3>
+            <span class="estimate-tag">ESTIMATE</span>
+          </div>
+          <p id="retirement-plan-status" class="retirement-plan-status" role="status"></p>
+          <p id="retirement-recommendation" class="retirement-recommendation"></p>
+          <dl class="breakdown retirement-breakdown">
+            <div>
+              <dt>After-tax monthly income goal</dt>
+              <dd id="retirement-income-goal"></dd>
+            </div>
+            <div>
+              <dt>457(b) balance at retirement</dt>
+              <dd id="retirement-balance-at-retirement"></dd>
+            </div>
+            <div>
+              <dt>Planning period</dt>
+              <dd id="retirement-planning-period"></dd>
+            </div>
+          </dl>
+
+          <div class="projection-heading">
+            <h4>Year-by-year projection</h4>
+            <p>All amounts are shown in today’s dollars.</p>
+          </div>
+          <ul class="projection-legend" aria-label="Income sources">
+            <li><span class="legend-swatch pension-swatch"></span>LEOFF 2 pension</li>
+            <li><span class="legend-swatch savings-swatch"></span>457(b) withdrawal</li>
+          </ul>
+          <div class="balance-chart-panel">
+            <h4 id="balance-chart-title">457(b) balance remaining</h4>
+            <svg
+              id="retirement-balance-chart"
+              role="img"
+              aria-labelledby="balance-chart-title"
+              viewBox="0 0 720 220"
+              preserveAspectRatio="none"
+            ></svg>
+          </div>
+          <div
+            class="projection-table-wrap"
+            role="region"
+            aria-label="Year-by-year retirement income projection"
+            tabindex="0"
+          >
+            <table class="projection-table">
+              <thead>
+                <tr>
+                  <th scope="col">Age</th>
+                  <th scope="col">Income sources</th>
+                  <th scope="col">Est. federal tax</th>
+                  <th scope="col">After-tax income</th>
+                  <th scope="col">457(b) balance</th>
+                  <th scope="col">Income gap</th>
+                </tr>
+              </thead>
+              <tbody id="retirement-plan-rows"></tbody>
+            </table>
+          </div>
+          <p class="retirement-disclaimer">
+            Planning estimate only. Uses 2026 federal tax brackets and the standard deduction in today’s dollars.
+            Assumes pension and Traditional 457(b) withdrawals are taxable, and that pension income keeps pace
+            with inflation after payments begin. It excludes state and local taxes, other household income,
+            Social Security, credits, and special deductions. Married filing jointly does not include a spouse’s income.
+          </p>
+        </section>
+      </section>
+
     </main>
   </body>
 </html>
