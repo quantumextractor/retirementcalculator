@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#102a2a">
+    <meta
+      name="description"
+      content="Estimate your LEOFF Plan 2 pension based on your service, retirement age, and final average salary."
+    >
+    <title>LEOFF 2 Retirement Estimate</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#" aria-label="Fire Service Retirement Planner home">
+          <span class="brand-mark" aria-hidden="true">F</span>
+          <span>Fire Service Retirement Planner</span>
+        </a>
+        <span class="plan-label">WASHINGTON · LEOFF PLAN 2</span>
+      </header>
+
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">LEOFF PLAN 2 PENSION ESTIMATE</p>
+        <h1 id="page-title">Plan your retirement.</h1>
+        <p class="intro-copy">
+          Estimate your monthly LEOFF 2 pension.
+        </p>
+      </section>
+
+      <div class="calculator-layout">
+        <section class="calculator-card" aria-labelledby="calculator-title">
+          <div class="card-heading">
+            <div>
+              <p class="step-label">PENSION ESTIMATE</p>
+              <h2 id="calculator-title">Your details</h2>
+            </div>
+            <span class="heading-icon" aria-hidden="true">01</span>
+          </div>
+
+          <form id="pension-form">
+            <div class="field-grid">
+              <div class="field">
+                <label for="hire-age">Age when you were hired</label>
+                <div class="input-wrap">
+                  <input
+                    id="hire-age"
+                    name="hireAge"
+                    type="number"
+                    min="1"
+                    max="100"
+                    step="1"
+                    placeholder="e.g. 25"
+                    required
+                    inputmode="numeric"
+                  >
+                  <span class="input-suffix">years old</span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="current-age">Your age now</label>
+                <div class="input-wrap">
+                  <input
+                    id="current-age"
+                    name="currentAge"
+                    type="number"
+                    min="1"
+                    max="100"
+                    step="1"
+                    placeholder="e.g. 40"
+                    required
+                    inputmode="numeric"
+                  >
+                  <span class="input-suffix">years old</span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="planned-age">Planned age to leave service</label>
+                <div class="input-wrap">
+                  <input
+                    id="planned-age"
+                    name="plannedAge"
+                    type="number"
+                    min="1"
+                    max="100"
+                    step="1"
+                    placeholder="e.g. 53"
+                    required
+                    inputmode="numeric"
+                    aria-describedby="planned-age-year-hint"
+                  >
+                  <span class="input-suffix">years old</span>
+                </div>
+                <p class="field-hint retirement-year-hint" id="planned-age-year-hint" aria-live="polite">
+                  (estimated year: —)
+                </p>
+              </div>
+
+              <div class="field">
+                <label for="fas">Final average salary (FAS)</label>
+                <div class="input-wrap input-wrap-money">
+                  <span class="input-prefix" aria-hidden="true">$</span>
+                  <input
+                    id="fas"
+                    name="fas"
+                    type="number"
+                    min="0"
+                    step="100"
+                    placeholder="e.g. 120,000"
+                    required
+                    inputmode="decimal"
+                  >
+                  <span class="input-suffix">per year</span>
+                </div>
+                <p class="field-hint">Enter your FAS in today’s dollars.</p>
+              </div>
+            </div>
+
+            <button class="calculate-button" type="submit">
+              Calculate my estimate
+              <span aria-hidden="true">→</span>
+            </button>
+          </form>
+
+          <section id="results" class="results" aria-labelledby="result-title" hidden>
+            <div id="retirement-status" class="retirement-status" role="status"></div>
+            <div class="result-topline">
+              <h2 id="result-title">Your estimated monthly pension</h2>
+              <span id="estimate-tag" class="estimate-tag">ESTIMATE</span>
+            </div>
+            <div id="pension-output">
+              <p id="monthly-benefit" class="monthly-benefit" aria-live="polite"></p>
+              <p id="annual-benefit" class="annual-benefit"></p>
+              <div class="result-divider"></div>
+              <dl class="breakdown">
+                <div>
+                  <dt>Retirement eligibility</dt>
+                  <dd id="eligibility-type"></dd>
+                </div>
+                <div>
+                  <dt id="service-years-label">Estimated service at retirement</dt>
+                  <dd id="service-years"></dd>
+                </div>
+                <div id="separation-details" hidden>
+                  <dt>Planned separation</dt>
+                  <dd id="separation-details-value"></dd>
+                </div>
+                <div id="pension-start-details" hidden>
+                  <dt>Payments begin</dt>
+                  <dd id="pension-start-value"></dd>
+                </div>
+                <div id="inflation-details" hidden>
+                  <dt>Inflation before collection</dt>
+                  <dd id="inflation-details-value"></dd>
+                </div>
+                <div>
+                  <dt>Benefit multiplier</dt>
+                  <dd id="benefit-multiplier"></dd>
+                </div>
+                <div>
+                  <dt>Early retirement reduction</dt>
+                  <dd id="early-reduction"></dd>
+                </div>
+                <div>
+                  <dt>Final average salary</dt>
+                  <dd id="result-fas"></dd>
+                </div>
+              </dl>
+            </div>
+          </section>
+        </section>
+
+        <aside class="info-panel" aria-labelledby="how-title">
+          <h2 id="how-title">How this estimate works</h2>
+          <p>Pension multiplier by service year:</p>
+          <ul class="rate-list">
+            <li><span>Service years 1–14</span><strong>2% each</strong></li>
+            <li><span>Service years 15–24</span><strong>2.5% each</strong></li>
+            <li><span>Service year 25 onward</span><strong>2% each</strong></li>
+          </ul>
+          <div class="formula">
+            <span class="formula-label">MONTHLY PENSION</span>
+            <p>(FAS × benefit multiplier) ÷ 12</p>
+          </div>
+          <div id="early-reduction-note" class="early-reduction-note" hidden>
+            <span class="formula-label">EARLY RETIREMENT REDUCTION</span>
+            <p>Early pensions are reduced by 9% at age 50, 6% at 51, or 3% at 52.</p>
+          </div>
+          <div id="deferred-note" class="deferred-note" hidden>
+            <span class="formula-label">IF NOT ELIGIBLE YET</span>
+            <p id="deferred-note-text"></p>
+          </div>
+          <p class="disclaimer">
+            Planning estimate only; not an official benefit quote. Actual benefits may differ.
+          </p>
+        </aside>
+      </div>
+
+    </main>
+  </body>
+</html>
