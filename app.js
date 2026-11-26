@@ -12,6 +12,34 @@ const earlyReductionNote = document.querySelector("#early-reduction-note");
 const deferredNote = document.querySelector("#deferred-note");
 const deferredNoteText = document.querySelector("#deferred-note-text");
 const estimateTag = document.querySelector("#estimate-tag");
+const savingsForm = document.querySelector("#savings-form");
+const currentBalanceInput = document.querySelector("#current-457-balance");
+const biweeklyContributionInput = document.querySelector("#biweekly-457-contribution");
+const returnRateInput = document.getElementById("457-return-rate");
+const savingsResults = document.querySelector("#savings-results");
+const savingsLimitDetails = document.querySelector("#savings-limit-details");
+const savingsLimitWarning = document.querySelector("#savings-limit-warning");
+const savingsMaximumContribution = document.querySelector(
+  "#savings-maximum-contribution",
+);
+
+const contributionLimitYear = 2027;
+const firstPaycheckDate = Date.UTC(contributionLimitYear, 0, 8);
+const endOfContributionLimitYear = Date.UTC(contributionLimitYear + 1, 0, 1);
+const biweeklyInterval = 14 * 24 * 60 * 60 * 1000;
+const paychecksPerYear =
+  Math.floor(
+    (endOfContributionLimitYear - firstPaycheckDate - 1) / biweeklyInterval,
+  ) + 1;
+const cityMatchPerPaycheck = 209;
+const standard457bLimit = 25500;
+const age50CatchUpLimit = 8500;
+const maxEmployeeContributionPerPaycheck = (annualLimit, paychecks) =>
+  Math.floor(
+    (annualLimit * 100 -
+      cityMatchPerPaycheck * 100 * paychecks) /
+      paychecks,
+  ) / 100;
 
 const earlyRetirementReductions = {
   50: 0.09,
@@ -19,11 +47,12 @@ const earlyRetirementReductions = {
   52: 0.03,
 };
 
-function formatCurrency(amount) {
+function formatCurrency(amount, fractionDigits = 0) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-    maximumFractionDigits: 0,
+    minimumFractionDigits: fractionDigits,
+    maximumFractionDigits: fractionDigits,
   }).format(amount);
 }
 
@@ -41,6 +70,56 @@ function getDirectRetirementType(age, serviceYears) {
 function getDeferredCollectionAge(serviceYears) {
   if (serviceYears < 5) return null;
   return serviceYears >= 20 ? 50 : 53;
+}
+
+function getProjectedSavingsBalance(
+  balance,
+  employeeContribution,
+  cityContribution,
+  realRate,
+  years,
+) {
+  const totalPeriods = years * paychecksPerYear;
+  const paycheckRate = (1 + realRate) ** (1 / paychecksPerYear) - 1;
+  const growthFactor = (1 + paycheckRate) ** totalPeriods;
+  const contributionFactor = paycheckRate === 0
+    ? totalPeriods
+    : (growthFactor - 1) / paycheckRate;
+  return (
+    balance * growthFactor +
+    (employeeContribution + cityContribution) * contributionFactor
+  );
+}
+
+function updateSavingsContributionGuidance() {
+  const age50CatchUpAvailable =
+    currentAgeInput.value && Number(currentAgeInput.value) >= 50;
+  const annualLimit = standard457bLimit +
+    (age50CatchUpAvailable ? age50CatchUpLimit : 0);
+  const maxEmployeeContribution =
+    maxEmployeeContributionPerPaycheck(annualLimit, paychecksPerYear);
+  const ageDescription = age50CatchUpAvailable ? " age 50+" : "";
+  savingsMaximumContribution.textContent =
+    formatCurrency(Math.floor(maxEmployeeContribution));
+  const employeeContribution = Number(biweeklyContributionInput.value);
+  const currentCityMatch = biweeklyContributionInput.value
+    ? Math.min(employeeContribution, cityMatchPerPaycheck)
+    : null;
+  savingsLimitDetails.textContent =
+    `${contributionLimitYear} max employee contribution${ageDescription}: ${formatCurrency(maxEmployeeContribution, 2)} per paycheck. The ${formatCurrency(annualLimit)} annual limit includes the City match and is based on ${paychecksPerYear} paychecks.`;
+
+  savingsLimitWarning.hidden = true;
+  if (!biweeklyContributionInput.value) {
+    return;
+  }
+
+  const totalAnnualContribution =
+    (employeeContribution + currentCityMatch) * paychecksPerYear;
+  if (totalAnnualContribution <= annualLimit) return;
+
+  savingsLimitWarning.textContent =
+    `This amount plus the City match exceeds the ${contributionLimitYear} annual limit for ${paychecksPerYear} paychecks.`;
+  savingsLimitWarning.hidden = false;
 }
 
 function updateSidebar() {
@@ -97,7 +176,6 @@ function updateAgeValidation() {
       ? "Age when you started cannot be greater than your current age."
       : "",
   );
-
   if (currentAgeInput.value && plannedAgeInput.value) {
     const plannedYear = currentYear + plannedAge - currentAge;
     plannedAgeYearHint.textContent = `(estimated year: ${plannedYear})`;
@@ -110,7 +188,13 @@ function updateAgeValidation() {
 
 hireAgeInput.addEventListener("input", updateAgeValidation);
 currentAgeInput.addEventListener("input", updateAgeValidation);
+currentAgeInput.addEventListener("input", updateSavingsContributionGuidance);
 plannedAgeInput.addEventListener("input", updateAgeValidation);
+biweeklyContributionInput.addEventListener(
+  "input",
+  updateSavingsContributionGuidance,
+);
+updateSavingsContributionGuidance();
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -225,4 +309,55 @@ form.addEventListener("submit", (event) => {
   plannedAgeYearHint.textContent = `(estimated year: ${plannedYear})`;
   results.hidden = false;
   results.scrollIntoView({ behavior: "smooth", block: "nearest" });
+});
+
+savingsForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  updateAgeValidation();
+
+  if (!savingsForm.reportValidity()) return;
+  if (!currentAgeInput.reportValidity() || !plannedAgeInput.reportValidity()) {
+    return;
+  }
+
+  const years = Number(plannedAgeInput.value) - Number(currentAgeInput.value);
+  const balance = Number(currentBalanceInput.value);
+  const employeeContribution = Number(biweeklyContributionInput.value);
+  const cityContribution = Math.min(
+    employeeContribution,
+    cityMatchPerPaycheck,
+  );
+  const nominalReturn = Number(returnRateInput.value) / 100;
+  const realReturn = nominalReturn - inflationRate;
+  const projectedBalance = getProjectedSavingsBalance(
+    balance,
+    employeeContribution,
+    cityContribution,
+    realReturn,
+    years,
+  );
+  const annualContribution =
+    (employeeContribution + cityContribution) * paychecksPerYear;
+
+  document.querySelector("#savings-result-title").textContent =
+    `Projected balance at age ${plannedAgeInput.value}`;
+  document.querySelector("#savings-amount").textContent =
+    formatCurrency(projectedBalance);
+  document.querySelector("#savings-amount-caption").textContent =
+    "In today’s purchasing power";
+  document.querySelector("#savings-years").textContent =
+    `${years} year${years === 1 ? "" : "s"}`;
+  document.querySelector("#savings-return").textContent =
+    `${(nominalReturn * 100).toFixed(1)}%`;
+  document.querySelector("#savings-real-return").textContent =
+    `${(realReturn * 100).toFixed(1)}%`;
+  document.querySelector("#savings-employee-contribution").textContent =
+    `${formatCurrency(employeeContribution, 2)} per paycheck`;
+  document.querySelector("#savings-city-match").textContent =
+    `${formatCurrency(cityContribution, 2)} per paycheck`;
+  document.querySelector("#savings-total-contribution").textContent =
+    `${formatCurrency(annualContribution, 2)} per year (${paychecksPerYear} checks)`;
+
+  savingsResults.hidden = false;
+  savingsResults.scrollIntoView({ behavior: "smooth", block: "nearest" });
 });

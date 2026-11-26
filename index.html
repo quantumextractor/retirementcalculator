@@ -6,27 +6,25 @@
     <meta name="theme-color" content="#102a2a">
     <meta
       name="description"
-      content="Estimate your LEOFF Plan 2 pension based on your service, retirement age, and final average salary."
+      content="Estimate your LEOFF 2 pension and project your 457(b) balance as a Spokane firefighter."
     >
-    <title>LEOFF 2 Retirement Estimate</title>
+    <title>Spokane Firefighters Retirement Planner</title>
     <link rel="stylesheet" href="style.css">
     <script src="app.js" defer></script>
   </head>
   <body>
     <main class="page-shell">
       <header class="site-header">
-        <a class="brand" href="#" aria-label="Fire Service Retirement Planner home">
-          <span class="brand-mark" aria-hidden="true">F</span>
-          <span>Fire Service Retirement Planner</span>
+        <a class="brand" href="#" aria-label="Spokane Firefighters Retirement Planner home">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span>Spokane Firefighters Retirement Planner</span>
         </a>
-        <span class="plan-label">WASHINGTON · LEOFF PLAN 2</span>
       </header>
 
       <section class="intro" aria-labelledby="page-title">
-        <p class="eyebrow">LEOFF PLAN 2 PENSION ESTIMATE</p>
         <h1 id="page-title">Plan your retirement.</h1>
         <p class="intro-copy">
-          Estimate your monthly LEOFF 2 pension.
+          Estimate your LEOFF 2 pension and 457(b) earnings.
         </p>
       </section>
 
@@ -199,6 +197,139 @@
           </p>
         </aside>
       </div>
+
+      <section class="savings-card" aria-labelledby="savings-title">
+        <div class="card-heading savings-heading">
+          <div>
+            <p class="step-label">457(b) SAVINGS PROJECTION</p>
+            <h2 id="savings-title">Project your account balance</h2>
+            <p class="savings-intro">
+              Estimate your balance at the age you plan to leave service.
+            </p>
+          </div>
+          <span class="heading-icon" aria-hidden="true">02</span>
+        </div>
+
+        <form id="savings-form">
+          <div class="savings-fields">
+            <div class="field">
+              <label for="current-457-balance">Current account balance</label>
+              <div class="input-wrap input-wrap-money">
+                <span class="input-prefix" aria-hidden="true">$</span>
+                <input
+                  id="current-457-balance"
+                  name="currentBalance"
+                  type="number"
+                  min="0"
+                  step="100"
+                  placeholder="e.g. 80,000"
+                  required
+                  inputmode="decimal"
+                >
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="biweekly-457-contribution">Your contribution per paycheck</label>
+              <div class="input-wrap input-wrap-money">
+                <span class="input-prefix" aria-hidden="true">$</span>
+                <input
+                  id="biweekly-457-contribution"
+                  name="biweeklyContribution"
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="e.g. 250"
+                  required
+                  inputmode="decimal"
+                >
+                <span class="input-suffix">every 2 weeks</span>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="457-return-rate">Expected annual return</label>
+              <div class="input-wrap">
+                <input
+                  id="457-return-rate"
+                  name="returnRate"
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="0.1"
+                  value="10"
+                  required
+                  inputmode="decimal"
+                >
+                <span class="input-suffix">%</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="savings-limit-note">
+            The City will match your contribution up to $209 per paycheck. Your maximum contribution is
+            <span id="savings-maximum-contribution" aria-live="polite"></span> per paycheck.
+          </p>
+
+          <button class="calculate-button savings-button" type="submit">
+            Project my 457(b) balance
+            <span aria-hidden="true">→</span>
+          </button>
+        </form>
+
+        <section id="savings-results" class="results savings-results" aria-labelledby="savings-result-title" hidden>
+          <div class="result-topline">
+            <h3 id="savings-result-title">Projected 457(b) balance</h3>
+            <span class="estimate-tag">ESTIMATE</span>
+          </div>
+          <p id="savings-amount" class="monthly-benefit" aria-live="polite"></p>
+          <p id="savings-amount-caption" class="annual-benefit"></p>
+          <div class="result-divider"></div>
+          <dl class="breakdown savings-breakdown">
+            <div>
+              <dt>Years to planned retirement</dt>
+              <dd id="savings-years"></dd>
+            </div>
+            <div>
+              <dt>Expected annual return</dt>
+              <dd id="savings-return"></dd>
+            </div>
+            <div>
+              <dt>Inflation assumption</dt>
+              <dd>3%</dd>
+            </div>
+            <div>
+              <dt>Estimated real return</dt>
+              <dd id="savings-real-return"></dd>
+            </div>
+            <div>
+              <dt>Your contribution</dt>
+              <dd id="savings-employee-contribution"></dd>
+            </div>
+            <div>
+              <dt>City contribution</dt>
+              <dd id="savings-city-match"></dd>
+            </div>
+            <div>
+              <dt>Combined annual contributions</dt>
+              <dd id="savings-total-contribution"></dd>
+            </div>
+          </dl>
+        </section>
+
+        <p class="savings-disclaimer">
+          Buying-power estimate, not a guarantee. Contributions are assumed to
+          keep pace with inflation and are deposited every two weeks (26 checks
+          per year). Fees, taxes, and withdrawals are excluded.
+        </p>
+        <p id="savings-limit-details" class="savings-limit-details"></p>
+        <p
+          id="savings-limit-warning"
+          class="field-hint savings-limit-warning"
+          role="status"
+          hidden
+        ></p>
+      </section>
 
     </main>
   </body>

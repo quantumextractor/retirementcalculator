@@ -1,5 +1,5 @@
-# retirementcalculator
-A retirement calculator for LEOFF 2 members.
+# Spokane Firefighters Retirement Planner
+A retirement planning tool for Spokane Firefighters with LEOFF 2 pension and 457(b) savings estimates.
 I will have inputs for people to estimate their pension benefit and forecast their 457b plan as well as their financial needs for retirement.
 The goal is to have the app tell users how much more they may to save to meet their retirement goals.
 
@@ -22,3 +22,11 @@ The initial multiplier applies 2% to each service year, with an additional 0.5% 
 Early retirement has a 9% reduction at age 50, 6% at age 51, and 3% at age 52. These reductions apply both to direct early retirement and deferred collection at the corresponding ages.
 
 For deferred benefits, the app estimates purchasing power at collection by applying a fixed 3% annual inflation assumption to the period from separation to collection. This does not include the first full year without a COLA or project COLAs after collection. FAS is used in today's dollars, and future salary growth is not projected. This is a preliminary planning estimate, not an official LEOFF 2 benefit quote; it uses whole-year ages and does not yet account for additional plan rules or adjustments.
+
+## 457(b) balance projection
+
+Enter the current account balance, your contribution per paycheck, and expected annual return. The projection period is the number of years from current age to planned age to leave service. The City matches employee contributions dollar-for-dollar up to $209 per paycheck, and the app reports the projected balance in today's purchasing power.
+
+The projection assumes 26 biweekly paychecks each year, contributions deposited at the end of each pay period, and employee and City contributions that rise with inflation to keep their purchasing power constant. The estimate excludes fees, taxes, and withdrawals; returns are not guaranteed.
+
+For 2027, the app uses the department-provided $25,500 annual contribution limit and adds an $8,500 catch-up limit for users whose current age is 50 or older. It includes the City's $209 contribution in the total. The first paycheck is January 8, 2027, resulting in 26 biweekly paychecks that year. The maximum employee contribution is $771.76 per paycheck under the standard limit or $1,098.69 at age 50 or older. Review the limit, match, and first paycheck date with HR when updating the calculator for a new year.
